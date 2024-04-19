@@ -6,7 +6,7 @@ import pickle
 st.set_page_config(layout="wide")
 
 
-model = pickle.load(open('LinearRegressionModel.pkl','rb'))
+model1 = pickle.load(open('LinearRegressionModel.pkl','rb'))
 
 st.title("Car Price Prediction App")
 
@@ -35,7 +35,7 @@ def main():
 
     if st.sidebar.button("Submit"):
         question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
-        prediction=model.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
+        prediction=model1.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
                               data=np.array([car_model,company,year,driven,fuel_type]).reshape(1, 5)))
         print(prediction)
 
