@@ -13,7 +13,7 @@ pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
 
 st.title("Car Price Prediction App")
 
-def preprocess_data(input_data):
+def preprocess_data(input_data, expected_columns):
     # Apply one-hot encoding to categorical variables
     encoded_data = pd.get_dummies(input_data)
     
@@ -61,7 +61,7 @@ def main():
         input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
         
         # Apply preprocessing steps
-        input_data_encoded = preprocess_data(input_data)
+        input_data_encoded = preprocess_data(input_data, expected_columns)
         
         # Predict
         prediction = pipe.predict(input_data_encoded)
