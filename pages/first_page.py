@@ -20,14 +20,17 @@ def main():
         fuel_types = df['fuel_type']
         kms_drivens = df['kms_driven']
         company = st.selectbox("Company", companies)
+        company = str(company)
         # Filter rows where 'company' column equals 'company_name'
         filtered_df = df[df['company'] == company]
         # Extract the 'name' column from the filtered DataFrame
         models = filtered_df['name'].tolist()
         model = st.selectbox("Model", models)
+        model = str(model)
         year = st.selectbox("Year of Purchase",years)
         year = int(year)
         fuel_type = st.selectbox("Fuel Type", fuel_types)
+        fuel_type = str(fuel_type)
         kms_driven = st.number_input("Approximate Number of Kilometers Driven", min_value=0,)
         kms_driven = int(kms_driven)
         
@@ -36,10 +39,8 @@ def main():
 
 
     if st.sidebar.button("Submit"):
-        # Prepare data for prediction
-        data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
-        # Predict
-        prediction = pipe.predict(data)
+        question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
+        prediction = pipe.predict(pd.DataFrame(columns=['name','company','year','kms_driven','fuel_type'],data=np.array([model, company, year, kms_driven, fuel_type]).reshape(1,5)))
         st.write("Prediction:", prediction)
 
 if __name__ == '__main__':
