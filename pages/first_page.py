@@ -39,7 +39,24 @@ def main():
 
     if st.sidebar.button("Submit"):
         question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
-        prediction = pipe.predict(pd.DataFrame(columns=['name','company','year','kms_driven','fuel_type'],data=np.array([model, company, year, kms_driven, fuel_type]).reshape(1,5)))
+        # Create a DataFrame with the input data
+        input_data = pd.DataFrame(columns=['name','company','year','kms_driven','fuel_type'],
+                                   data=np.array([model, company, year, kms_driven, fuel_type]).reshape(1,5))
+        
+        # Perform one-hot encoding for the categorical variables 'name', 'company', and 'fuel_type'
+        input_data_encoded = pd.get_dummies(input_data, columns=['name', 'company', 'fuel_type'])
+        
+        # Add the 'year' and 'kms_driven' columns to the preprocessed input data
+        input_data_encoded['year'] = year
+        input_data_encoded['kms_driven'] = kms_driven
+        
+        # Reorder columns to match the specified order: 'name','company','year','kms_driven','fuel_type'
+        input_data_encoded = input_data_encoded[['name', 'company', 'year', 'kms_driven', 'fuel_type']]
+        
+        # Make prediction
+        prediction = pipe.predict(input_data_encoded)
+        
+        # Display the prediction using Streamlit
         st.write("Prediction:", prediction)
 
 if __name__ == '__main__':
