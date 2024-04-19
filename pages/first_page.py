@@ -36,7 +36,7 @@ def main():
     if st.sidebar.button("Submit"):
         question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
         prediction=model1.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
-                              data=np.array([car_model,company,year,driven,fuel_type]).reshape(1, 5)))
+                              data=np.array([model,company,year,kms_driven,fuel_type]).reshape(1, 5)))
         print(prediction)
 
 if __name__ == '__main__':
