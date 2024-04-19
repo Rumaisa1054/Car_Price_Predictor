@@ -43,6 +43,9 @@ def main():
         input_data = pd.DataFrame(columns=['name','company','year','kms_driven','fuel_type'],
                                    data=np.array([model, company, year, kms_driven, fuel_type]).reshape(1,5))
         
+        # Reorder columns to match the specified order: 'name', 'company', 'year', 'kms_driven', 'fuel_type'
+        input_data = input_data[['name', 'company', 'year', 'kms_driven', 'fuel_type']]
+        
         # Perform one-hot encoding for the categorical variables 'name', 'company', and 'fuel_type'
         input_data_encoded = pd.get_dummies(input_data, columns=['name', 'company', 'fuel_type'])
         
@@ -50,8 +53,8 @@ def main():
         input_data_encoded['year'] = year
         input_data_encoded['kms_driven'] = kms_driven
         
-        # Reorder columns to match the specified order: 'name','company','year','kms_driven','fuel_type'
-        input_data_encoded = input_data_encoded[['name', 'company', 'year', 'kms_driven', 'fuel_type']]
+        # Reorder columns to match the order used during training
+        input_data_encoded = input_data_encoded.reindex(sorted(input_data_encoded.columns), axis=1)
         
         # Make prediction
         prediction = pipe.predict(input_data_encoded)
