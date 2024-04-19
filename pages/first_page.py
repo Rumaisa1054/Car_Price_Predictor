@@ -39,28 +39,15 @@ def main():
 
     if st.sidebar.button("Submit"):
         question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
-        # Create a DataFrame with the input data
-        input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 
-                                    'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
+        # Prepare the input data for prediction
+        data = [model, company, year, kms_driven, fuel_type]
+        input_data = pd.DataFrame([data], columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'])
         
-        # Reorder columns to match the specified order: 'name', 'company', 'year', 'kms_driven', 'fuel_type'
-        input_data = input_data[['name', 'company', 'year', 'kms_driven', 'fuel_type']]
+        # Make prediction using the loaded pipeline
+        prediction = pipe.predict(input_data)
         
-        # Perform one-hot encoding for the categorical variables 'name', 'company', and 'fuel_type'
-        input_data_encoded = pd.get_dummies(input_data, columns=['name', 'company', 'fuel_type'])
-        
-        # Add the 'year' and 'kms_driven' columns to the preprocessed input data
-        input_data_encoded['year'] = year
-        input_data_encoded['kms_driven'] = kms_driven
-        
-        # Reorder columns to match the order used during training
-        input_data_encoded = input_data_encoded.reindex(sorted(input_data_encoded.columns), axis=1)
-        
-        # Make prediction
-        prediction = pipe.predict(input_data_encoded)
-        
-        # Display the prediction using Streamlit
-        st.write("Prediction:", prediction)
+        # Display the prediction
+        print("Prediction:", prediction)
 
 if __name__ == '__main__':
     main()
