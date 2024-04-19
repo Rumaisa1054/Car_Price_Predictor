@@ -35,9 +35,20 @@ def main():
 
     if st.sidebar.button("Submit"):
         question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
-        prediction=model1.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
-                              data=np.array([model,company,year,kms_driven,fuel_type]).reshape(1, 5)))
-        print(prediction)
+        # Prepare input data for prediction
+        input_data = pd.DataFrame({
+            'company': [company],
+            'name': [model],
+            'year': [year],
+            'kms_driven': [kms_driven],
+            'fuel_type': [fuel_type]
+        })
+
+        # Make prediction
+        prediction = trained_pipeline.predict(input_data)
+        
+        # Display prediction
+        st.write("Predicted Price:", prediction)
 
 if __name__ == '__main__':
     main()
