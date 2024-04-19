@@ -30,9 +30,10 @@ def main():
         models = filtered_df['name'].tolist()
         model = st.selectbox("Model", models)
         year = st.selectbox("Year of Purchase",years)
+        year = int(year)
         fuel_type = st.selectbox("Fuel Type", fuel_types)
         kms_driven = st.number_input("Approximate Number of Kilometers Driven", min_value=0,)
-
+        kms_driven = int(kms_driven)
     if not company or not model or not year or not fuel_type or not kms_driven:
         st.warning("Please enter all car details to continue")
 
