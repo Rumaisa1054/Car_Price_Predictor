@@ -45,7 +45,7 @@ def main():
         })
 
         # Make prediction
-        prediction = trained_pipeline.predict(input_data)
+        prediction = model1.predict(input_data)
         
         # Display prediction
         st.write("Predicted Price:", prediction)
