@@ -6,7 +6,7 @@ import pickle
 st.set_page_config(layout="wide")
 
 # Load the list of expected columns
-expected_columns = pickle.load(open('expected_columns.pkl', 'rb'))
+expected_columns = pickle.load(open('LinearRegressionModel.pkl', 'rb'))
 
 # Load the trained model
 pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
