@@ -25,17 +25,17 @@ def main():
     with st.sidebar:
         st.subheader("Enter Car Details")
         df = pd.read_csv("Cleaned_Car_data.csv")
-        companies = df['company']
+        companies = df['company'].unique()
         
-        years = df['year']
-        fuel_types = df['fuel_type']
-        kms_drivens = df['kms_driven']
+        years = df['year'].unique()
+        fuel_types = df['fuel_type'].unique()
+        kms_drivens = df['kms_driven'].unique()
         company = st.selectbox("Company", companies)
         company = str(company)
         # Filter rows where 'company' column equals 'company_name'
-        filtered_df = df[df['company'] == company]
+        filtered_df = df[df['company'] == company].unique()
         # Extract the 'name' column from the filtered DataFrame
-        models = filtered_df['name'].tolist()
+        models = filtered_df['name']..unique().tolist()
         model = st.selectbox("Model", models)
         model = str(model)
         year = st.selectbox("Year of Purchase",years)
