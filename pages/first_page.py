@@ -14,7 +14,7 @@ def preprocess_data(input_data):
     encoded_data = pd.get_dummies(input_data)
     # Make sure the columns in the encoded data match the columns used during training
     # (In case of missing columns, add them with value 0)
-    expected_columns = pickle.load(open('expected_columns.pkl', 'rb'))  # Load the list of expected columns
+    expected_columns = pickle.load(open('LinearRegressionModel.pkl', 'rb'))  # Load the list of expected columns
     missing_cols = set(expected_columns) - set(encoded_data.columns)
     for col in missing_cols:
         encoded_data[col] = 0
