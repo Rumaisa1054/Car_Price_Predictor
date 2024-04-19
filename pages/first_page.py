@@ -9,6 +9,17 @@ st.set_page_config(layout="wide")
 pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
 
 st.title("Car Price Prediction App")
+def preprocess_data(input_data):
+    # Apply one-hot encoding to categorical variables
+    encoded_data = pd.get_dummies(input_data)
+    # Make sure the columns in the encoded data match the columns used during training
+    # (In case of missing columns, add them with value 0)
+    expected_columns = pickle.load(open('expected_columns.pkl', 'rb'))  # Load the list of expected columns
+    missing_cols = set(expected_columns) - set(encoded_data.columns)
+    for col in missing_cols:
+        encoded_data[col] = 0
+    encoded_data = encoded_data[expected_columns]
+    return encoded_data
 
 def main():
     with st.sidebar:
@@ -41,15 +52,10 @@ def main():
     if st.sidebar.button("Submit"):
         # Prepare input data
         input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
-        # One-hot encode categorical variables
-        encoded_data = pd.get_dummies(input_data)
-        # Make sure the columns in the encoded data match the columns used during training
-        missing_cols = set(pipe.named_steps['preprocessor'].transformers_[0][1].get_feature_names_out()) - set(encoded_data.columns)
-        for col in missing_cols:
-            encoded_data[col] = 0
-        encoded_data = encoded_data[pipe.named_steps['preprocessor'].transformers_[0][1].get_feature_names_out()]
+        # Apply preprocessing steps
+        input_data_encoded = preprocess_data(input_data)
         # Predict
-        prediction = pipe.predict(encoded_data)
+        prediction = pipe.predict(input_data_encoded)
         st.write("Prediction:", prediction)
 if __name__ == '__main__':
     main()
