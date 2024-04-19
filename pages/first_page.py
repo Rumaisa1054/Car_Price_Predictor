@@ -5,12 +5,8 @@ import pickle
 
 st.set_page_config(layout="wide")
 
-def load_model():
-    with open('LinearRegressionModel.pkl', 'rb') as file:
-        model = pickle.load(file)
-    return model
 
-pipe = load_model()
+model = pickle.load(open('LinearRegressionModel.pkl','rb'))
 
 st.title("Car Price Prediction App")
 
