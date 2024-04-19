@@ -36,7 +36,6 @@ def main():
 
 
     if st.sidebar.button("Submit"):
-        question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
         # Prepare data for prediction
         data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
         # Predict
