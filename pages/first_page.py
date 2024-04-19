@@ -33,9 +33,9 @@ def main():
         company = st.selectbox("Company", companies)
         company = str(company)
         # Filter rows where 'company' column equals 'company_name'
-        filtered_df = df[df['company'] == company].unique()
+        filtered_df = df[df['company'] == company]
         # Extract the 'name' column from the filtered DataFrame
-        models = filtered_df['name'].unique().tolist()
+        models = filtered_df['name'].tolist()
         model = st.selectbox("Model", models)
         model = str(model)
         year = st.selectbox("Year of Purchase",years)
