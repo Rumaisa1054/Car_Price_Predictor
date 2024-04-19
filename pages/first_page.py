@@ -40,7 +40,7 @@ def main():
 
         # Make prediction
         prediction = model1.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
-                              data=np.array([car_model,company,year,driven,fuel_type]).reshape(1, 5)))
+                              data=np.array([model,company,year,kms_driven,fuel_type]).reshape(1, 5)))
         
         # Display prediction
         st.write("Predicted Price:", prediction)
