@@ -40,8 +40,8 @@ def main():
     if st.sidebar.button("Submit"):
         question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
         # Create a DataFrame with the input data
-        input_data = pd.DataFrame(columns=['name','company','year','kms_driven','fuel_type'],
-                                   data=np.array([model, company, year, kms_driven, fuel_type]).reshape(1,5))
+        input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 
+                                    'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
         
         # Reorder columns to match the specified order: 'name', 'company', 'year', 'kms_driven', 'fuel_type'
         input_data = input_data[['name', 'company', 'year', 'kms_driven', 'fuel_type']]
