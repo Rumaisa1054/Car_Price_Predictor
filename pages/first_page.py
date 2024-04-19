@@ -41,11 +41,15 @@ def main():
     if st.sidebar.button("Submit"):
         # Prepare input data
         input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
-        # Encoding categorical variables
-        # Your encoding code here...
-        # Make sure to use the same encoding technique used during training
+        # One-hot encode categorical variables
+        encoded_data = pd.get_dummies(input_data)
+        # Make sure the columns in the encoded data match the columns used during training
+        missing_cols = set(pipe.named_steps['preprocessor'].transformers_[0][1].get_feature_names_out()) - set(encoded_data.columns)
+        for col in missing_cols:
+            encoded_data[col] = 0
+        encoded_data = encoded_data[pipe.named_steps['preprocessor'].transformers_[0][1].get_feature_names_out()]
         # Predict
-        prediction = pipe.predict(input_data)
+        prediction = pipe.predict(encoded_data)
         st.write("Prediction:", prediction)
 if __name__ == '__main__':
     main()
