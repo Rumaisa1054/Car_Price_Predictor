@@ -39,9 +39,13 @@ def main():
 
 
     if st.sidebar.button("Submit"):
-        question = f"Car Details: {company}, {model}, Year: {year}, Fuel Type: {fuel_type}, KMs Driven: {kms_driven}"
-        prediction = pipe.predict(pd.DataFrame(columns=['name','company','year','kms_driven','fuel_type'],data=np.array([model, company, year, kms_driven, fuel_type]).reshape(1,5)))
+        # Prepare input data
+        input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
+        # Encoding categorical variables
+        # Your encoding code here...
+        # Make sure to use the same encoding technique used during training
+        # Predict
+        prediction = pipe.predict(input_data)
         st.write("Prediction:", prediction)
-
 if __name__ == '__main__':
     main()
