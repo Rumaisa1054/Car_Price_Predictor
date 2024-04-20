@@ -6,7 +6,7 @@ import pickle
 st.set_page_config(layout="wide")
 
 # Load the list of expected columns
-expected_columns = pickle.load(open('LinearRegressionModel.pkl', 'rb'))
+expected_columns = pickle.load(open('Expected_Columns.pkl', 'rb'))
 
 # Load the trained model
 pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
@@ -41,7 +41,8 @@ def main():
         company = str(company)
         
         # Filter rows where 'company' column equals 'company_name'
-        models = sorted(df['name'].unique())
+        filtered_df = df[df['company'] == company]
+        models = filtered_df['name'].tolist()
         model = st.selectbox("Model", models)
         model = str(model)
         
