@@ -43,7 +43,7 @@ def main():
         if not company or not model or not year or not fuel_type or not kms_driven:
             st.warning("Please enter all car details to continue")
 
-        if st.sidebar.button("Submit"):
+        elif st.sidebar.button("Submit"):
             # Prepare input data
             input_data = pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
                                        data=[[model, company, year, kms_driven, fuel_type]])
