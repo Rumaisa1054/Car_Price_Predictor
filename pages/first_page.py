@@ -55,7 +55,7 @@ def main():
             st.write("Year :",year)
             st.write("Kilometres driven :",kms_driven)
             st.write("Fuel Type:",fuel_type)
-            st.subheader("Predicted price:", predicted_price[0])
+            st.subheader("Predicted price:" +  str(predicted_price[0]))
 
     except KeyError as e:
         st.error(f"Error: {e}. Make sure the CSV file contains the required columns.")
