@@ -43,7 +43,7 @@ def main():
         if st.sidebar.button("Submit"):
             # Prepare input data
             input_data = pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
-                                       data=[[model, comapny, year, kms_driven, fuel_type]])
+                                       data=[[model, company, year, kms_driven, fuel_type]])
 
             # Make predictions
             predicted_price = pipe.predict(input_data)
