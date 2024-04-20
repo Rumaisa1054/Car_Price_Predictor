@@ -14,8 +14,11 @@ pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
 st.title("Car Price Prediction App")
 
 def preprocess_data(input_data, expected_columns):
+    
     # Apply one-hot encoding to categorical variables
     encoded_data = pd.get_dummies(input_data)
+
+    st.write("Input Data Columns:", input_data.columns)
     
     # Make sure the columns in the encoded data match the columns used during training
     # (In case of missing columns, add them with value 0)
