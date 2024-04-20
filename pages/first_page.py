@@ -5,31 +5,7 @@ import pickle
 
 st.set_page_config(layout="wide")
 
-# Load the list of expected columns
-expected_columns = pickle.load(open('Expected_Columns.pkl', 'rb'))
-
-# Load the trained model
-pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
-
 st.title("Car Price Prediction App")
-
-def preprocess_data(input_data, expected_columns):
-    
-    # Apply one-hot encoding to categorical variables
-    encoded_data = pd.get_dummies(input_data)
-
-    st.write("Input Data Columns:", input_data.columns)
-    
-    # Make sure the columns in the encoded data match the columns used during training
-    # (In case of missing columns, add them with value 0)
-    missing_cols = set(expected_columns) - set(encoded_data.columns)
-    for col in missing_cols:
-        encoded_data[col] = 0
-    encoded_data = encoded_data[expected_columns]
-    st.write("Expected Columns:", expected_columns)
-    st.write("Encoded Data Columns:", encoded_data.columns)
-
-    return encoded_data
 
 def main():
     try:
@@ -66,17 +42,17 @@ def main():
 
         if st.sidebar.button("Submit"):
             # Prepare input data
-            input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
-            
-            # Apply preprocessing steps
-            input_data_encoded = preprocess_data(input_data, expected_columns)
-            
-            # Predict
-            prediction = pipe.predict(input_data_encoded)
-            st.write("Prediction:", prediction)
+            input_data = pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
+                                       data=[[model, comapny, year, kms_driven, fuel_type]])
+
+            # Make predictions
+            predicted_price = pipe.predict(input_data)
+
+            st.write("Predicted price:", predicted_price[0])
 
     except KeyError as e:
         st.error(f"Error: {e}. Make sure the CSV file contains the required columns.")
 
 if __name__ == '__main__':
     main()
+  
