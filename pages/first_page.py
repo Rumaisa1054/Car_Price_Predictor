@@ -8,9 +8,6 @@ st.set_page_config(layout="wide")
 # Load the list of expected columns
 expected_columns = pickle.load(open('Expected_Columns.pkl', 'rb'))
 
-# Load the cleaned DataFrame
-df = pd.read_csv("Cleaned_Car_data.csv")
-
 # Load the trained model
 pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
 
@@ -35,44 +32,51 @@ def preprocess_data(input_data, expected_columns):
     return encoded_data
 
 def main():
-    with st.sidebar:
-        st.subheader("Enter Car Details")
-        companies = df['company'].unique()
-        years = df['year'].unique()
-        fuel_types = df['fuel_type'].unique()
-        kms_drivens = df['kms_driven'].unique()
-        
-        company = st.selectbox("Company", companies)
-        company = str(company)
-        
-        # Filter rows where 'company' column equals 'company_name'
-        filtered_df = df[df['company'] == company]
-        models = filtered_df['name'].tolist()
-        model = st.selectbox("Model", models)
-        model = str(model)
-        
-        year = st.selectbox("Year of Purchase", years)
-        year = int(year)
-        
-        fuel_type = st.selectbox("Fuel Type", fuel_types)
-        fuel_type = str(fuel_type)
-        
-        kms_driven = st.number_input("Approximate Number of Kilometers Driven", min_value=0)
-        kms_driven = int(kms_driven)
-        
-    if not company or not model or not year or not fuel_type or not kms_driven:
-        st.warning("Please enter all car details to continue")
+    try:
+        # Load the cleaned DataFrame
+        df = pd.read_csv("Cleaned_Car_data.csv")
 
-    if st.sidebar.button("Submit"):
-        # Prepare input data
-        input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
-        
-        # Apply preprocessing steps
-        input_data_encoded = preprocess_data(input_data, expected_columns)
-        
-        # Predict
-        prediction = pipe.predict(input_data_encoded)
-        st.write("Prediction:", prediction)
+        with st.sidebar:
+            st.subheader("Enter Car Details")
+            companies = df['company'].unique()
+            years = df['year'].unique()
+            fuel_types = df['fuel_type'].unique()
+            kms_drivens = df['kms_driven'].unique()
+            
+            company = st.selectbox("Company", companies)
+            company = str(company)
+            
+            # Filter rows where 'company' column equals 'company_name'
+            filtered_df = df[df['company'] == company]
+            models = filtered_df['name'].tolist()
+            model = st.selectbox("Model", models)
+            model = str(model)
+            
+            year = st.selectbox("Year of Purchase", years)
+            year = int(year)
+            
+            fuel_type = st.selectbox("Fuel Type", fuel_types)
+            fuel_type = str(fuel_type)
+            
+            kms_driven = st.number_input("Approximate Number of Kilometers Driven", min_value=0)
+            kms_driven = int(kms_driven)
+            
+        if not company or not model or not year or not fuel_type or not kms_driven:
+            st.warning("Please enter all car details to continue")
+
+        if st.sidebar.button("Submit"):
+            # Prepare input data
+            input_data = pd.DataFrame({'name': [model], 'company': [company], 'year': [year], 'kms_driven': [kms_driven], 'fuel_type': [fuel_type]})
+            
+            # Apply preprocessing steps
+            input_data_encoded = preprocess_data(input_data, expected_columns)
+            
+            # Predict
+            prediction = pipe.predict(input_data_encoded)
+            st.write("Prediction:", prediction)
+
+    except KeyError as e:
+        st.error(f"Error: {e}. Make sure the CSV file contains the required columns.")
 
 if __name__ == '__main__':
     main()
