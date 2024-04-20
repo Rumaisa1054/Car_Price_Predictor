@@ -41,7 +41,7 @@ def main():
         company = str(company)
         
         # Filter rows where 'company' column equals 'company_name'
-        models = sorted(car['name'].unique())
+        models = sorted(df['name'].unique())
         model = st.selectbox("Model", models)
         model = str(model)
         
