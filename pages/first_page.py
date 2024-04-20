@@ -4,7 +4,10 @@ import numpy as np
 import pickle
 
 st.set_page_config(layout="wide")
-
+# Load the trained model
+with open('LinearRegressionModel.pkl', 'rb') as model_file:
+    pipe = pickle.load(model_file)
+    
 st.title("Car Price Prediction App")
 
 def main():
