@@ -8,6 +8,9 @@ st.set_page_config(layout="wide")
 # Load the list of expected columns
 expected_columns = pickle.load(open('Expected_Columns.pkl', 'rb'))
 
+# Load the cleaned DataFrame
+df = pd.read_csv("Cleaned_Car_data.csv")
+
 # Load the trained model
 pipe = pickle.load(open('LinearRegressionModel.pkl','rb'))
 
@@ -34,7 +37,6 @@ def preprocess_data(input_data, expected_columns):
 def main():
     with st.sidebar:
         st.subheader("Enter Car Details")
-        df = pd.read_csv("Cleaned_Car_data.csv")
         companies = df['company'].unique()
         years = df['year'].unique()
         fuel_types = df['fuel_type'].unique()
