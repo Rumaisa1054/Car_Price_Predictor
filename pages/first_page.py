@@ -50,7 +50,11 @@ def main():
 
             # Make predictions
             predicted_price = pipe.predict(input_data)
-
+            st.write("Model :",model)
+            st.write("Company :",company)
+            st.write("Year :",year)
+            st.write("Kilometres driven :",kms_driven)
+            st.write("Fuel Type:",fuel_type)
             st.write("Predicted price:", predicted_price[0])
 
     except KeyError as e:
