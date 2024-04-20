@@ -23,7 +23,9 @@ def preprocess_data(input_data, expected_columns):
     for col in missing_cols:
         encoded_data[col] = 0
     encoded_data = encoded_data[expected_columns]
-    
+    st.write("Expected Columns:", expected_columns)
+    st.write("Encoded Data Columns:", encoded_data.columns)
+
     return encoded_data
 
 def main():
